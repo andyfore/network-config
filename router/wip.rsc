@@ -1,11 +1,5 @@
 ###############################################################################
-# Topic:		Using RouterOS to VLAN your network
-# Example:		Switch with a separate router (RoaS)
-# Web:			https://forum.mikrotik.com/viewtopic.php?t=143620
-# RouterOS:		6.43.12
-# Date:			Mar 28, 2019
-# Notes:		Start with a reset (/system reset-configuration)
-# Thanks:		mkx, sindy
+# Adapted from: https://forum.mikrotik.com/viewtopic.php?t=143620
 ###############################################################################
 
 #######################################
@@ -19,9 +13,9 @@
 # VLAN Overview
 #######################################
 
-# 10 = BLUE (TRUST)
-# 20 = GREEN (GUEST)
-# 30 = RED (SECURITY)
+# 10 = TRUST [BLUE in example]
+# 20 = GUEST [GREEN in example]
+# 30 = SECURITY [RED in example]
 # 40 = IOT
 # 50 = DMZ
 # 60 = LAB_GEN
@@ -49,6 +43,7 @@ add admin-mac=C4:AD:34:FD:30:F8 name=BR1 protocol-mode=none vlan-filtering=no
 
 #######################################
 # ZeroTier
+# added using Mikrotik Zerotier package
 #######################################
 /zerotier
 set zt1 comment="ZeroTier Central controller - https://my.zerotier.com/" disabled=yes disabled=yes name=zt1 port=9993
@@ -56,8 +51,6 @@ set zt1 comment="ZeroTier Central controller - https://my.zerotier.com/" disable
 #######################################
 #
 # -- Trunk Ports --
-#
-#
 #
 #######################################
 
