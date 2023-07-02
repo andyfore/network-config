@@ -20,11 +20,6 @@ add name=default-dhcp ranges=10.15.31.10-10.15.31.100
 add address-pool=default-dhcp interface=bridge name=defconf
 /port
 set 0 name=serial0
-/zerotier
-set zt1 comment="ZeroTier Central controller - https://my.zerotier.com/" disabled=yes disabled=yes identity="70cce3b023:\
-    0:93e8cc4198805b0046405025d02998c8d47b20d55618be433fcf3acaefef9200972bbc28f35832ae5cb5004ef640f30876076c70eef596e84e\
-    a583a6b41899f1:78ed0f8b8732e04f4d4ff3cb50fdd5b9233c6a4e6f398636bd0390f98314646e2562b0dbfd1f8bcfd79a4a9abf29eff6c4b72\
-    be3309498c78ea843cf87b89f7b" name=zt1 port=9993
 /interface bridge port
 add bridge=bridge comment=defconf disabled=yes interface=ether2
 add bridge=bridge comment=defconf interface=ether3
