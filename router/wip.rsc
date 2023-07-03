@@ -42,13 +42,6 @@ add admin-mac=C4:AD:34:FD:30:F8 name=BR1 protocol-mode=none vlan-filtering=no
 /interface list member add interface=ether2 list=WAN
 
 #######################################
-# ZeroTier
-# added using Mikrotik Zerotier package
-#######################################
-/zerotier
-set zt1 comment="ZeroTier Central controller - https://my.zerotier.com/" disabled=yes disabled=yes name=zt1 port=9993
-
-#######################################
 #
 # -- Trunk Ports --
 #
