@@ -69,6 +69,11 @@ add bridge=BR1 interface=sfp1
 add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=10
 add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=20
 add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=30
+add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=40
+add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=50
+add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=60
+add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=70
+add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=80
 add bridge=BR1 tagged=BR1,ether1,ether3,ether4,ether5,ether6,ether7,ether8,ether9,ether10 vlan-ids=200
 
 
