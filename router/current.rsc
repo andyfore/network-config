@@ -31,7 +31,6 @@ add bridge=bridge comment=defconf interface=ether8
 add bridge=bridge comment=defconf interface=ether9
 add bridge=bridge comment=defconf interface=ether10
 add bridge=bridge comment=defconf interface=sfp1
-add bridge=bridge interface=*13
 /ip neighbor discovery-settings
 set discover-interface-list=LAN
 /interface list member

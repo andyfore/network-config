@@ -217,6 +217,7 @@ add chain=input action=accept in-interface-list=VLAN comment="Allow VLAN"
 # Allow TRUST_VLAN full access to the device for Winbox, etc.
 add chain=input action=accept in-interface=BASE_VLAN comment="Allow Base_Vlan Full Access"
 add chain=input action=accept in-interface=TRUST_VLAN comment="Allow TRUST_VLAN Full Access"
+add chain=input action=accept in-interface=BR1 comment="Allow TRUST_VLAN Full Access"
 
 add chain=input action=drop comment="Drop"
 
