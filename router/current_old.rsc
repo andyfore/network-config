@@ -1,63 +1,51 @@
-# 2024-03-19 11:07:10 by RouterOS 7.14.1
+# 2023-07-07 07:39:26 by RouterOS 7.10.1
 # software id = RF1W-SNY1
 #
 # model = RB3011UiAS
 # serial number = B88E0B7BD0B5
 /interface bridge
-add admin-mac=C4:AD:34:FD:30:F8 auto-mac=no comment="Bridge used for LAN" name=LAN_BRIDGE port-cost-mode=short
+add admin-mac=C4:AD:34:FD:30:F8 auto-mac=no comment=defconf name=bridge
 /interface ethernet
 set [ find default-name=ether1 ] disabled=yes
-set [ find default-name=ether2 ] comment="Cable Modem"
-set [ find default-name=ether3 ] comment="Asus WiFi"
-set [ find default-name=ether4 ] comment="Hue Bridge"
-set [ find default-name=ether5 ] comment=Desk1
-/interface vlan
-add comment="VLAN for Guest Network" interface=LAN_BRIDGE name=GUEST_VLAN_10 vlan-id=10
+set [ find default-name=ether7 ] disabled=yes
+set [ find default-name=ether8 ] disabled=yes
 /interface list
 add comment=defconf name=WAN
 add comment=defconf name=LAN
+/interface wireless security-profiles
+set [ find default=yes ] supplicant-identity=MikroTik
 /ip pool
-add name=DHCP_LAN_POOL ranges=10.15.31.10-10.15.31.200
-add name=jubilee ranges=10.15.32.10-10.15.32.100
-add name=dhcp_pool2 ranges=10.0.1.2-10.0.1.254
+add name=default-dhcp ranges=10.15.31.10-10.15.31.100
 /ip dhcp-server
-add address-pool=DHCP_LAN_POOL interface=LAN_BRIDGE name=DHCP_LAN
-add address-pool=dhcp_pool2 interface=GUEST_VLAN_10 name=GUEST_DHCP
-/ip smb users
-set [ find default=yes ] disabled=yes
+add address-pool=default-dhcp interface=bridge name=defconf
 /port
 set 0 name=serial0
 /interface bridge port
-add bridge=LAN_BRIDGE comment=defconf disabled=yes interface=ether2 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=ether3 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=ether4 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=ether5 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=ether6 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=ether7 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=ether8 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=ether9 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=ether10 internal-path-cost=10 path-cost=10
-add bridge=LAN_BRIDGE comment=defconf interface=sfp1 internal-path-cost=10 path-cost=10
-/ip firewall connection tracking
-set udp-timeout=10s
+add bridge=bridge comment=defconf disabled=yes interface=ether2
+add bridge=bridge comment=defconf interface=ether3
+add bridge=bridge comment=defconf interface=ether4
+add bridge=bridge comment=defconf interface=ether5
+add bridge=bridge comment=defconf interface=ether6
+add bridge=bridge comment=defconf interface=ether7
+add bridge=bridge comment=defconf interface=ether8
+add bridge=bridge comment=defconf interface=ether9
+add bridge=bridge comment=defconf interface=ether10
+add bridge=bridge comment=defconf interface=sfp1
 /ip neighbor discovery-settings
 set discover-interface-list=LAN
 /interface list member
-add comment=defconf interface=LAN_BRIDGE list=LAN
+add comment=defconf interface=bridge list=LAN
 add comment=defconf interface=ether2 list=WAN
 /ip address
-add address=10.15.31.1/24 comment=LAN_SUBNET interface=LAN_BRIDGE network=10.15.31.0
-add address=10.0.1.1/24 comment=GUEST_SUBNET interface=GUEST_VLAN_10 network=10.0.1.0
+add address=10.15.31.1/24 comment=defconf interface=bridge network=10.15.31.0
 /ip dhcp-client
 add comment=defconf interface=ether2
-/ip dhcp-server lease
-add address=10.15.31.23 client-id=1:d8:a0:11:8a:79:78 mac-address=D8:A0:11:8A:79:78 server=DHCP_LAN
-add address=10.15.31.96 client-id=1:d8:a0:11:8a:8b:48 mac-address=D8:A0:11:8A:8B:48 server=DHCP_LAN
 /ip dhcp-server network
-add address=10.0.1.0/24 dns-server=1.1.1.1 gateway=10.0.1.1
-add address=10.15.31.0/24 comment=defconf dns-server=9.9.9.9,1.1.1.1 gateway=10.15.31.1
+add address=10.15.31.0/24 comment=defconf dns-server=1.1.1.1,8.8.8.8 gateway=10.15.31.1
 /ip dns
-set allow-remote-requests=yes servers=9.9.9.9
+set allow-remote-requests=yes servers=1.1.1.1
+/ip dns static
+add address=192.168.88.1 comment=defconf name=router.lan
 /ip firewall address-list
 add address=0.0.0.0/8 comment="defconf: RFC6890" list=no_forward_ipv4
 add address=169.254.0.0/16 comment="defconf: RFC6890" list=no_forward_ipv4
@@ -133,10 +121,7 @@ set telnet disabled=yes
 set ftp disabled=yes
 set www disabled=yes
 set ssh address=10.15.31.0/24
-set www-ssl address=10.15.31.0/24 disabled=no
-set winbox address=10.15.31.0/24
-/ip smb shares
-set [ find default=yes ] directory=/pub
+set www-ssl disabled=no
 /ip ssh
 set always-allow-password-login=yes strong-crypto=yes
 /ipv6 firewall address-list
@@ -204,15 +189,12 @@ add action=accept chain=icmp6 comment="defconf: echo reply limit 5,10" icmp-opti
 add action=accept chain=icmp6 comment="defconf: rfc4890 router solic limit 5,10 only LAN" hop-limit=equal:255 icmp-options=133:0-255 in-interface-list=LAN limit=5,10:packet protocol=icmpv6
 add action=accept chain=icmp6 comment="defconf: rfc4890 router advert limit 5,10 only LAN" hop-limit=equal:255 icmp-options=134:0-255 in-interface-list=LAN limit=5,10:packet protocol=icmpv6
 add action=accept chain=icmp6 comment="defconf: rfc4890 neighbor solic limit 5,10 only LAN" hop-limit=equal:255 icmp-options=135:0-255 in-interface-list=LAN limit=5,10:packet protocol=icmpv6
-add action=accept chain=icmp6 comment="defconf: rfc4890 neighbor advert limit 5,10 only LAN" hop-limit=equal:255 icmp-options=136:0-255 in-interface-list=LAN limit=5,10:packet protocol=\
-    icmpv6
-add action=accept chain=icmp6 comment="defconf: rfc4890 inverse ND solic limit 5,10 only LAN" hop-limit=equal:255 icmp-options=141:0-255 in-interface-list=LAN limit=5,10:packet protocol=\
-    icmpv6
-add action=accept chain=icmp6 comment="defconf: rfc4890 inverse ND advert limit 5,10 only LAN" hop-limit=equal:255 icmp-options=142:0-255 in-interface-list=LAN limit=5,10:packet protocol=\
-    icmpv6
+add action=accept chain=icmp6 comment="defconf: rfc4890 neighbor advert limit 5,10 only LAN" hop-limit=equal:255 icmp-options=136:0-255 in-interface-list=LAN limit=5,10:packet protocol=icmpv6
+add action=accept chain=icmp6 comment="defconf: rfc4890 inverse ND solic limit 5,10 only LAN" hop-limit=equal:255 icmp-options=141:0-255 in-interface-list=LAN limit=5,10:packet protocol=icmpv6
+add action=accept chain=icmp6 comment="defconf: rfc4890 inverse ND advert limit 5,10 only LAN" hop-limit=equal:255 icmp-options=142:0-255 in-interface-list=LAN limit=5,10:packet protocol=icmpv6
 add action=drop chain=icmp6 comment="defconf: drop other icmp" protocol=icmpv6
 /ipv6 nd
-set [ find default=yes ] interface=LAN_BRIDGE
+set [ find default=yes ] interface=bridge
 /system clock
 set time-zone-name=America/New_York
 /system identity
