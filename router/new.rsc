@@ -197,7 +197,8 @@ set bridge=BR1 ingress-filtering=yes frame-types=admit-only-vlan-tagged [find in
 /tool mac-server set allowed-interface-list=BASE
 
 
-#######################################
+#################################################
 # Turn on VLAN mode
-#######################################
-/interface bridge set BR1 vlan-filtering=yes
+# Leave commented out until safe mode test passes
+#################################################
+# /interface bridge set BR1 vlan-filtering=yes
